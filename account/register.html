@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>hotView labs | register</title>
+    <link rel="stylesheet" href="/styles/index.css">
+</head>
+<body>
+    <section class="desktop-header">
+        <div class="d-header">
+            <div class="desktop-header-left">
+                <a href="../index.html">
+                    <img src="/Images/hotview-logo.png" alt="HotView logo" class="header-logo">
+                </a>
+                <a href="../index.html" class="hotview-labs">hotView labs</a>
+            </div>
+            <div class="desktop-header-right">
+                <a href="/FED1-PE1-hvemily/account/login.html" class="login">login</a>
+                <a href="/FED1-PE1-hvemily/account/register.html" class="home">register</a>
+            </div>    
+        </div>
+    </section>
+    <h1>admin register</h1>
+    <form id="register-form" action="">
+        <input id="name-input" type="text" placeholder="name" aria-label="Your name">
+        <input id="email-input" type="text" placeholder="e-mail" aria-label="Your e-mail">
+        <input id="password-input" type="password" placeholder="password" aria-label="Your Password">
+        <button id="register-submit">continue</button>
+    </form>
+    <section class="footer">
+        <div>
+            <p>hotView labs. est 2019</p>
+        </div>
+    </section>
+    <script type="module">
+        import { handleRegister } from '../mjs/auth.mjs';
+        handleRegister();
+    </script>
+</body>
+</html>

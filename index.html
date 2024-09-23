@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>hotView labs | home</title>
+    <link rel="stylesheet" href="/styles/index.css">
+</head>
+<body>
+    <header class="desktop-header">
+        <div class="d-header">
+            <div class="desktop-header-left">
+                <a href="index.html">
+                    <img src="/Images/hotview-logo.png" alt="HotView logo" class="header-logo">
+                </a>
+                <a href="index.html" class="hotview-labs">hotView labs</a>
+            </div>
+            <div class="desktop-header-right">
+                <a href="./account/login.html" class="login">login</a>
+                <a href="./account/register.html" class="home">register</a>
+            </div>    
+        </div>
+    </header>
+    
+    <section class="hero">
+        <h1>trending</h1>
+        <div></div>
+
+        <div class="carousel">
+            <div class="carousel-container" id="carousel-container">
+                <!-- Her skal de dynamisk genererte slide-elementene legges -->
+            </div>
+            <button class="carousel-btn left" id="prevBtn">‹</button>
+            <button class="carousel-btn right" id="nextBtn">›</button>
+        </div>
+
+    <section class="features">
+        <div id="landing-posts-list"></div>
+    </section>
+
+
+<footer class="footer">
+    <p>hotView labs. est 2019</p>
+</footer>
+
+<script type="module">
+    // Importerer fetch-filen fra rotmappen
+    import { handleFetchPostsForLanding } from './mjs/fetch.mjs';
+    import { updateCarousel } from './mjs/carousel.mjs';
+
+    // Henter blogginnleggene for landingssiden
+    handleFetchPostsForLanding('landing-posts-list');
+
+    // Setter opp karusellen
+    updateCarousel();
+</script>
+
+</body>
+</html>

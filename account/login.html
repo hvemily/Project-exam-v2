@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>hotView labs | login</title>
+    <link rel="stylesheet" href="/styles/index.css">
+</head>
+<body>
+    <section class="desktop-header">
+        <div class="d-header">
+            <div class="desktop-header-left">
+                <a href="../index.html">
+                    <img src="/Images/hotview-logo.png" alt="HotView logo" class="header-logo">
+                </a>
+                <a href="../index.html" class="hotview-labs">hotView labs</a>
+            </div>
+            <div class="desktop-header-right">
+                <a href="./account/login.html" class="login">login</a>
+                <a href="/FED1-PE1-hvemily/account/register.html" class="home">register</a>
+            </div>    
+        </div>
+    </section>
+    <h1>admin login</h1>
+    <form id="login-form" action="">
+        <input id="email-input" type="text" placeholder="e-mail" aria-label="Your e-mail" required>
+        <input id="password-input" type="password" placeholder="password" aria-label="Your Password" required>
+        <button id="login-submit" type="submit">login</button>
+    </form>
+    <div class="new-user">
+        <p>or</p>
+        <a href="/FED1-PE1-hvemily/account/register.html">new user</a>
+    </div>
+    <section class="footer">
+        <div>
+            <p>hotView labs. est 2019</p>
+        </div>
+    </section>
+    <script type="module">
+        import { handleLogin } from '../mjs/auth.mjs'; // Importer JavaScript-modulen
+        handleLogin();
+    </script>
+</body>
+</html>

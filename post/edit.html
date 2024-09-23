@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>hotView labs | edit post</title>
+    <link rel="stylesheet" href="/styles/index.css">
+</head>
+<body>
+    <section class="desktop-header">
+        <div class="d-header">
+            <div class="desktop-header-left">
+                <a href="../index.html">
+                    <img src="/Images/hotview-logo.png" alt="HotView logo" class="header-logo">
+                </a>
+                <a href="../index.html" class="hotview-labs">hotView labs</a>
+            </div>
+            <div class="desktop-header-right">
+                <a href="./account/login.html" class="login">login</a>
+                <a href="/FED1-PE1-hvemily/account/register.html" class="home">register</a>
+            </div>    
+        </div>
+    </section>
+
+    <h1>Edit Blog Post</h1>
+    <form id="edit-form">
+        <label for="title">Title:</label>
+        <input type="text" id="title" name="title" required>
+
+        <label for="body">Body:</label>
+        <textarea id="body" name="body" required></textarea>
+
+        <label for="tags">Tags:</label>
+        <input type="text" id="tags" name="tags">
+
+        <label for="media-url">Media URL:</label>
+        <input type="text" id="media-url" name="media-url">
+
+        <label for="media-alt">Media Alt Text:</label>
+        <input type="text" id="media-alt" name="media-alt">
+
+        <button type="submit">Save</button>
+        <button type="button" id="cancel-button">Cancel</button> <!-- Id for cancel-knappen -->
+        <button type="button" id="delete-button">Delete</button> <!-- Id for delete-knappen -->
+    </form>
+
+    <section class="footer">
+        <div>
+            <p>hotView labs. est 2019</p>
+        </div>
+    </section>
+
+    <script type="module">
+        import { populateEditForm, handleEditPostForm, handleDeletePost, handleCancelEdit } from '/mjs/postFormHandlers.mjs';
+        import { checkAuth } from '/mjs/auth.mjs';
+    
+        // Sjekk om brukeren er innlogget
+        checkAuth();
+    
+        // Hent post-ID fra URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const postId = urlParams.get('id');
+    
+        // Logg post-ID-en for feilsøking
+        console.log('Post ID from URL:', postId);
+    
+        // Sjekk at postId er gyldig
+        if (postId) {
+            // Fyll skjemaet med postdata
+            populateEditForm(postId);
+    
+            // Håndter lagring av redigert post
+            handleEditPostForm(postId);
+    
+            // Håndter sletting av post
+            handleDeletePost(postId);
+    
+            // Håndter avbryt redigering
+            handleCancelEdit();
+        } else {
+            console.error('No post ID found in the URL.');
+            alert('No post ID found. Redirecting to main page.');
+            window.location.href = 'index.html'; // Redirect if no postId is found
+        }
+    </script>
+    
+</body>
+</html>
