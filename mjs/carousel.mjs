@@ -1,38 +1,46 @@
 // Funksjon for å hente blogginnleggene og lage karusellen
 export async function updateCarousel() {
-  const carouselContainer = document.getElementById('carousel-container');
-  let currentSlide = 0;
+  document.addEventListener('DOMContentLoaded', async () => {
+      const carouselContainer = document.getElementById('carousel-container');
+      if (!carouselContainer) {
+          console.error('carousel-container element not found');
+          return;
+      }
 
-  try {
-      const response = await fetch('https://v2.api.noroff.dev/blog/posts/emilyadmin');
-      const data = await response.json();
+      try {
+          const response = await fetch('https://v2.api.noroff.dev/blog/posts/emilyadmin');
+          const data = await response.json();
 
-      // Velg de tre første postene for karusellen
-      const firstThreePosts = data.data.slice(0, 3);
+          // Velg de tre første postene for karusellen
+          const firstThreePosts = data.data.slice(0, 3);
 
-      // Fjern eksisterende slides (hvis det finnes noen)
-      carouselContainer.innerHTML = '';
+          // Fjern eksisterende slides (hvis det finnes noen)
+          carouselContainer.innerHTML = '';
 
-      // Generer HTML for disse postene
-      firstThreePosts.forEach(post => {
-          const slide = document.createElement('div');
-          slide.classList.add('carousel-slide');
+          // Generer HTML for disse postene
+          firstThreePosts.forEach(post => {
+              const slide = document.createElement('div');
+              slide.classList.add('carousel-slide');
 
-          slide.innerHTML = `
-              <img src="${post.media.url}" alt="${post.media.alt}">
-              <h3>${post.title}</h3>
-              <p>${post.body.slice(0, 100)}...</p>
-          `;
+              // Legg til en lenke som går til postens side basert på post-ID
+              slide.innerHTML = `
+                  <a href="/post.html?id=${post.id}" class="carousel-link">
+                      <img src="${post.media.url}" alt="${post.media.alt}">
+                      <h3>${post.title}</h3>
+                      <p>${post.body.slice(0, 100)}...</p>
+                  </a>
+              `;
 
-          carouselContainer.appendChild(slide);
-      });
+              carouselContainer.appendChild(slide);
+          });
 
-      setupCarouselNavigation(); // Funksjonen som håndterer pilene og navigasjon
-
-  } catch (error) {
-      console.error('Failed to fetch carousel posts:', error);
-  }
+          setupCarouselNavigation(); // Funksjonen som håndterer pilene og navigasjon
+      } catch (error) {
+          console.error('Failed to fetch carousel posts:', error);
+      }
+  });
 }
+
 
 // Funksjon for å sette opp navigasjonen for karusellen
 function setupCarouselNavigation() {
