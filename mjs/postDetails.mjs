@@ -4,9 +4,9 @@ import { setupShareButton } from './share.mjs';
 
 document.addEventListener('DOMContentLoaded', async () => {
     const urlParams = new URLSearchParams(window.location.search);
-    const postId = urlParams.get('id'); // Henter post-ID fra URL
+    const postId = urlParams.get('id');
 
-    // Legg til plassholdere
+    // adding place holders
     document.getElementById('post-author').textContent = 'Loading author...';
     document.getElementById('post-date').textContent = 'Loading date...';
     document.getElementById('post-title').textContent = 'Loading...';
@@ -21,15 +21,15 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (postData && postData.data) {
             const post = postData.data;
 
-            // Samle alle dataene før vi oppdaterer DOM-en
+            //collecting data and updating the DOM
             const postAuthor = post.author.name || 'Unknown author';
             const postUpdatedDate = post.updated ? new Date(post.updated).toLocaleDateString() : 'Unknown date';
             const postTitle = post.title || 'Untitled';
             const postBody = post.body || 'No content available';
-            const postImage = post.media && post.media.url ? post.media.url : '/images/placeholder.png';
-            const postImageAlt = post.media && post.media.alt ? post.media.alt : 'No description available';
+            const postImage = post.media?.url || '/images/placeholder.png';
+            const postImageAlt = post.media?.alt || 'No description available';
 
-            // Oppdater hele DOM-en samtidig
+            // Oppdater DOM
             document.getElementById('post-author').innerText = `By: ${postAuthor}`;
             document.getElementById('post-date').innerText = `Last updated: ${postUpdatedDate}`;
             document.getElementById('post-title').innerText = postTitle;
@@ -44,5 +44,4 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 });
 
-// Kall setupShareButton for å sette opp delingsknappen
 setupShareButton();

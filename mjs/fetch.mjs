@@ -1,10 +1,6 @@
 import { API_URL } from "./constants.mjs";
 import { deletePost } from "./postActions.mjs";
-
-// Function to get the auth token from localStorage
-export function getAccessToken() {
-    return localStorage.getItem('authToken');
-}
+import { getAccessToken } from './accessToken.mjs'; // Importer getAccessToken fra accessToken.mjs
 
 // Fetch with rate limiting to avoid hitting API rate limits
 export async function fetchWithRateLimit(url, options = {}, retries = 3) {
@@ -39,8 +35,8 @@ export async function fetchWithRateLimit(url, options = {}, retries = 3) {
 
 // Function to fetch and display all posts
 export async function handleFetchPosts() {
-    const token = getAccessToken(); // Get auth token
-    const username = localStorage.getItem('username'); // Get username
+    const token = getAccessToken(); // Hent auth token fra accessToken.mjs
+    const username = localStorage.getItem('username'); // Hent brukernavn
 
     if (!token || !username) {
         alert('You are not logged in. Redirecting to login page.');
@@ -90,7 +86,6 @@ export async function handleFetchPosts() {
             postsList.appendChild(postElement);
         });
 
-
         document.querySelectorAll('.edit-button').forEach(button => {
             button.addEventListener('click', () => {
                 const postId = button.getAttribute('data-post-id');
@@ -128,14 +123,12 @@ export async function handleFetchPostsForLanding(targetDivId = 'landing-posts-li
         postsList.innerHTML = ''; // Clear existing posts
 
         data.data.forEach(post => {
-            console.log("Post Media on Landing:", post.media);
-
             const postElement = document.createElement('div');
             postElement.classList.add('post-item');
-
+        
             // Format the updated date
             const updatedDate = new Date(post.updated).toLocaleDateString();
-
+        
             // Create the post HTML
             postElement.innerHTML = `
                 <a href="post.html?id=${post.id}" class="post-link">
@@ -146,7 +139,7 @@ export async function handleFetchPostsForLanding(targetDivId = 'landing-posts-li
                 </a>
             `;
             postsList.appendChild(postElement);
-        });
+        });        
     } else {
         alert('Failed to fetch posts');
     }
@@ -154,7 +147,7 @@ export async function handleFetchPostsForLanding(targetDivId = 'landing-posts-li
 
 // Function to fetch a specific post by ID
 export async function handleFetchPostById(postId) {
-    const url = `https://v2.api.noroff.dev/blog/posts/emilyadmin/${postId}`;
+    const url = `${API_URL}/blog/posts/emilyadmin/${postId}`;
     console.log("Fetching post with URL:", url); // Logg URL-en for å sjekke om den er riktig
     const response = await fetchWithRateLimit(url);
 
@@ -184,4 +177,5 @@ export async function handleFetchPostById(postId) {
         return null;  // Returner null hvis ingen post ble funnet
     }
 }
+
 

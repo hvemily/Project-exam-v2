@@ -1,10 +1,10 @@
 import { LOGIN_API_ENDPOINT, REGISTER_API_ENDPOINT } from './constants.mjs';
-import { storeAccessToken } from './accessToken.mjs'; // Importer storeAccessToken
+import { storeAccessToken } from './accessToken.mjs'; 
 
-// Funksjon for å håndtere innlogging
+//handling login
 export function handleLogin() {
     document.getElementById('login-form').addEventListener('submit', function(event) {
-        event.preventDefault(); // Forhindre standard form-handling
+        event.preventDefault(); 
 
         const email = document.getElementById('email-input').value;
         const password = document.getElementById('password-input').value;
@@ -15,87 +15,82 @@ export function handleLogin() {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ email, password }) // Sender e-post og passord som JSON
+            body: JSON.stringify({ email, password }) 
         })
         .then(response => {
             if (!response.ok) {
                 return response.json().then(err => {
-                    throw new Error(`Login failed: ${err.message}`); // Log feilmeldingen fra API-et
+                    throw new Error(`Login failed: ${err.message}`);
                 });
             }
-            return response.json(); // Hvis responsen er OK, parse JSON-data
+            return response.json(); 
         })
         .then(data => {
-            // Sjekk om dataen inneholder nødvendige felter
-            if (data && data.data && data.data.accessToken && data.data.name) {
-                console.log('Received token from API:', data.data.accessToken);
-                console.log('Received username from API:', data.data.name);
-
-                // Lagre token og brukernavn i localStorage
+            // does the response contain neccessary data?
+            if (data?.data?.accessToken && data.data.name) {
+                //save token and username in localStorage
                 storeAccessToken(data.data.accessToken);
                 localStorage.setItem('username', data.data.name);
 
-                // Omdiriger til hovedsiden etter vellykket innlogging
+                //redirecting to the main post/index after successfull login
                 window.location.href = '../post/index.html';
             } else {
                 throw new Error('Invalid response from server');
             }
         })
         .catch(error => {
-            alert(error.message); // Vis feilmelding til brukeren
-            console.error('Login error:', error); // Logg feilen for utvikling/formål
+            alert(error.message); // show error to the viewer
         });
     });
 }
 
-// Funksjon for å håndtere registrering
+// function to handle registration
 export function handleRegister() {
     document.getElementById('register-form').addEventListener('submit', function(event) {
-        event.preventDefault(); // Forhindre standard form-handling
+        event.preventDefault(); 
 
         const name = document.getElementById('name-input').value;
         const email = document.getElementById('email-input').value;
         const password = document.getElementById('password-input').value;
 
-        // Valider passordlengde før vi sender forespørselen til API-et
+        // Valider at passordet er langt nok før vi sender forespørselen til API-et
         if (password.length < 8) {
-            alert('Password must be at least 8 characters long.'); // Vis beskjed hvis passordet er for kort
-            return; // Stopp videre utføring
+            alert('Password must be at least 8 characters long.');
+            return; 
         }
 
-        // Send POST-forespørsel til API for registrering
+        // send post-req to API for registration
         fetch(REGISTER_API_ENDPOINT, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ name, email, password }) // Sender navn, e-post og passord som JSON
+            body: JSON.stringify({ name, email, password })
         })
         .then(response => {
             if (!response.ok) {
                 return response.json().then(err => {
-                    throw new Error(`Registration failed: ${err.message || 'Unknown error'}`); // Gi meningsfull feilbeskjed
+                    throw new Error(`Registration failed: ${err.message || 'Unknown error'}`);
                 });
             }
-            return response.json(); // Parse JSON-data hvis responsen er OK
+            return response.json(); 
         })
-        .then(data => {
+        .then(() => {
             alert('Registration successful! Redirecting to login page.');
-            window.location.href = './login.html'; // Omdiriger til innloggingssiden etter registrering
+            window.location.href = './login.html'; 
+            //redirecting to loginpage after registration
         })
         .catch(error => {
-            alert(`Registration failed: ${error.message}`); // Vis feilmelding til brukeren
-            console.error('Registration error:', error); // Logg feilen for utvikling/formål
+            alert(`Registration failed: ${error.message}`); 
         });
     });
 }
 
-
-// Funksjon for å sjekke om brukeren er innlogget
+// function to check if the user is logged in or not
 export function checkAuth() {
-    const token = localStorage.getItem('authToken'); // Hent token fra localStorage
+    const token = localStorage.getItem('authToken'); 
     if (!token) {
         alert('You are not logged in. Redirecting to login page.');
-        window.location.href = '/account/login.html'; // Omdiriger til innloggingssiden hvis token ikke er funnet
+        window.location.href = '/account/login.html'; 
     }
 }
