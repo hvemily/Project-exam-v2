@@ -1,42 +1,51 @@
 import { API_URL } from "./constants.mjs";
+import { getAccessToken } from './accessToken.mjs'; 
 import { deletePost } from "./postActions.mjs";
-import { getAccessToken } from './accessToken.mjs'; // Importer getAccessToken fra accessToken.mjs
 
-// Fetch with rate limiting to avoid hitting API rate limits
-export async function fetchWithRateLimit(url, options = {}, retries = 3) {
-    const REQUEST_DELAY_MS = 1000; // 1 second delay
+// Sentralisert fetch med retry og feilbehandling
+export async function performFetch(url, options = {}, retries = 3) {
+    const REQUEST_DELAY_MS = 1000;
     const now = Date.now();
 
-    if (fetchWithRateLimit.lastFetchTime && now - fetchWithRateLimit.lastFetchTime < REQUEST_DELAY_MS) {
-        const delay = REQUEST_DELAY_MS - (now - fetchWithRateLimit.lastFetchTime);
+    if (performFetch.lastFetchTime && now - performFetch.lastFetchTime < REQUEST_DELAY_MS) {
+        const delay = REQUEST_DELAY_MS - (now - performFetch.lastFetchTime);
         await new Promise(resolve => setTimeout(resolve, delay));
     }
 
-    fetchWithRateLimit.lastFetchTime = Date.now();
+    performFetch.lastFetchTime = now;
 
     try {
         const response = await fetch(url, options);
-        if (response.status === 429) {
-            if (retries > 0) {
-                console.warn("Too many requests. Retrying...");
-                await new Promise(resolve => setTimeout(resolve, 2000)); // Wait 2 seconds before retrying
-                return fetchWithRateLimit(url, options, retries - 1);
-            } else {
-                console.error("Too many requests. No more retries.");
-                return null;
-            }
+
+        if (response.status === 429 && retries > 0) {
+            await new Promise(resolve => setTimeout(resolve, 2000));
+            return performFetch(url, options, retries - 1);
         }
-        return response.json();
+
+        // Sjekk om responsen har innhold før vi prøver å parse det
+        const isResponseEmpty = response.status === 204 || response.headers.get('content-length') === '0';
+
+        if (isResponseEmpty) {
+            return null; // Returner null for tom respons
+        }
+
+        if (!response.ok) {
+            const error = await response.json();
+            throw new Error(`Error: ${response.status} - ${error.message}`);
+        }
+
+        return await response.json();
     } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error('Fetch failed:', error);
+        alert('Failed to fetch data');
         return null;
     }
 }
 
 // Function to fetch and display all posts
 export async function handleFetchPosts() {
-    const token = getAccessToken(); // Hent auth token fra accessToken.mjs
-    const username = localStorage.getItem('username'); // Hent brukernavn
+    const token = getAccessToken(); 
+    const username = localStorage.getItem('username'); 
 
     if (!token || !username) {
         alert('You are not logged in. Redirecting to login page.');
@@ -46,11 +55,7 @@ export async function handleFetchPosts() {
 
     // Fetch all posts from the API
     const url = `${API_URL}/blog/posts/emilyadmin`;
-    console.log("Fetching posts with URL:", url);
-    console.log("Using token:", token);
-
-    // Include the token in the headers if required by the API
-    const data = await fetchWithRateLimit(url, {
+    const data = await performFetch(url, {
         headers: {
             'Authorization': `Bearer ${token}`,
         },
@@ -59,7 +64,7 @@ export async function handleFetchPosts() {
     const postsList = document.getElementById('posts-list');
 
     if (!postsList) {
-        console.warn('Element with id "posts-list" not found. Skipping post list rendering.');
+        console.warn('Element with id "posts-list" not found.');
         return;
     }
 
@@ -75,7 +80,7 @@ export async function handleFetchPosts() {
                 <p class="author">By: ${post.author.name}</p>
             `;
 
-            // Show edit and delete buttons only for the author's own posts
+            // Vis rediger og slett knapper bare for brukerens egne innlegg
             if (post.author.name === username) {
                 postElement.innerHTML += `
                     <button class="edit-button" data-post-id="${post.id}">Edit</button>
@@ -96,13 +101,25 @@ export async function handleFetchPosts() {
         document.querySelectorAll('.delete-button').forEach(button => {
             button.addEventListener('click', async () => {
                 const postId = button.getAttribute('data-post-id');
-                await deletePost(postId);
-                // Refresh posts after deletion
-                handleFetchPosts();
+                
+                // Bekreftelse før sletting
+                const userConfirmed = confirm('Are you sure you want to delete this post? This action cannot be undone.');
+
+                if (userConfirmed) {
+                    try {
+                        await deletePost(postId);  // Kaller deletePost funksjonen
+                        alert('Post deleted successfully');
+                        handleFetchPosts();  // Oppdater innleggene etter sletting
+                    } catch (error) {
+                        console.error('Failed to delete post:', error);
+                        alert('Failed to delete post');
+                    }
+                } else {
+                    alert('Post deletion cancelled.');
+                }
             });
         });
     } else {
-        console.error('Failed to fetch posts or no posts found.');
         alert('Failed to fetch posts');
     }
 }
@@ -111,7 +128,7 @@ export async function handleFetchPosts() {
 export async function handleFetchPostsForLanding(targetDivId = 'landing-posts-list') {
     // Fetch all posts for the landing page
     const url = `${API_URL}/blog/posts/emilyadmin`;
-    const data = await fetchWithRateLimit(url);
+    const data = await performFetch(url);
 
     const postsList = document.getElementById(targetDivId);
     if (!postsList) {
@@ -148,13 +165,11 @@ export async function handleFetchPostsForLanding(targetDivId = 'landing-posts-li
 // Function to fetch a specific post by ID
 export async function handleFetchPostById(postId) {
     const url = `${API_URL}/blog/posts/emilyadmin/${postId}`;
-    console.log("Fetching post with URL:", url); // Logg URL-en for å sjekke om den er riktig
-    const response = await fetchWithRateLimit(url);
+    const response = await performFetch(url);
 
     if (response && response.data) {
         const post = response.data;
 
-        console.log("Post Data:", post); // Logg hele API-responsen for å se hva som blir returnert
 
         // Hvis post er en tom array, logg en advarsel
         if (Array.isArray(post) && post.length === 0) {

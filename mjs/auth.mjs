@@ -88,9 +88,13 @@ export function handleRegister() {
 
 // function to check if the user is logged in or not
 export function checkAuth() {
-    const token = localStorage.getItem('authToken'); 
-    if (!token) {
+    const token = localStorage.getItem('authToken');
+    const username = localStorage.getItem('username');
+    
+    if (!token || !username) {
         alert('You are not logged in. Redirecting to login page.');
-        window.location.href = '/account/login.html'; 
+        window.location.href = '/account/login.html';
+        return false;
     }
+    return true;
 }
