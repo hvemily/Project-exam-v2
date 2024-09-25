@@ -4,20 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>hotView labs | manage posts</title>
-    <link rel="stylesheet" href="/styles/index.css">
+    <link rel="stylesheet" href="../styles/index.css">
 </head>
 <body>
     <section class="desktop-header">
         <div class="d-header">
             <div class="desktop-header-left">
                 <a href="../index.html">
-                    <img src="/Images/hotview-logo.png" alt="HotView logo" class="header-logo">
+                    <img src="../Images/hotview-logo.png" alt="HotView logo" class="header-logo">
                 </a>
                 <a href="../index.html" class="hotview-labs">hotview labs</a>
             </div>
             <div class="desktop-header-right">
-                <a href="./account/login.html" class="login">login</a>
-                <a href="/FED1-PE1-hvemily/account/register.html" class="home">register</a>
+                <a href="../account/login.html" class="login">login</a>
+                <a href="../account/register.html" class="home">register</a>
             </div>    
         </div>
     </section>
@@ -48,20 +48,11 @@
 </footer>
 
 <script type="module">
-    import { checkAuth } from '/mjs/auth.mjs';
+    import { checkAuth } from '../mjs/auth.mjs';
+    import { handleCreatePostForm } from '../mjs/create.mjs';
     
-    // Sjekk autentisering og logg for feilsøking
-    console.log("Checking authentication...");
     checkAuth();
+    handleCreatePostForm();
 </script>
-
-<!-- Pass på at create.mjs lastes inn etter autentiseringen er sjekket -->
-<script type="module">
-    import { handleCreatePostForm } from '/mjs/create.mjs';
-
-    console.log("Loading create.mjs...");
-    handleCreatePostForm(); // Aktiver skjemaet for å lage en ny post
-</script>
-
 </body>
 </html>
