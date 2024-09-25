@@ -1,6 +1,4 @@
 // share.mjs
-
-// Funksjon for å hente post-ID fra URL-en (hvis den ikke allerede finnes i en annen fil)
 export function getPostIdFromUrl() {
     const params = new URLSearchParams(window.location.search);
     return params.get('id');
