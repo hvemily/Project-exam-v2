@@ -29,6 +29,5 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 });
 
-// Kall setupShareButton for å sette opp delingsknappen
 setupShareButton();
 
