@@ -22,7 +22,7 @@ export async function updateCarousel() {
                 const slide = document.createElement('div');
                 slide.classList.add('carousel-slide');
                 slide.innerHTML = `
-                    <a href="../post.html?id=${post.id}" class="carousel-link">
+                    <a href="./post.html?id=${post.id}" class="carousel-link">
                         <img src="${post.media.url}" alt="${post.media.alt}">
                         <h3>${post.title}</h3>
                         <p>${post.body.slice(0, 100)}...</p>
