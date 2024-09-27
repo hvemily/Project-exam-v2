@@ -7,7 +7,16 @@ import { checkAuth } from './auth.mjs';
 export async function createPost(postData) {
     if (!checkAuth()) return;
 
-    const url = `${API_URL}/blog/posts/${localStorage.getItem('username')}`;
+    const username = localStorage.getItem('username');
+
+    // Sjekk om brukeren er 'emilyadmin'
+    if (username !== 'emilyadmin') {
+        console.error('Only emilyadmin can create new posts.');
+        alert('You do not have permission to create posts.'); // Optional: Vis en melding til brukeren
+        return;
+    }
+
+    const url = `${API_URL}/blog/posts/${username}`;
     const token = getAccessToken();
 
     return await performFetch(url, {
@@ -19,6 +28,7 @@ export async function createPost(postData) {
         body: JSON.stringify(postData)
     });
 }
+
 
 // Funksjon for å slette post
 export async function deletePost(postId) {

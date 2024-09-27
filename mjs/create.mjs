@@ -4,6 +4,16 @@ import { createPost } from './postActions.mjs';
 export function handleCreatePostForm() {
     document.getElementById('create-post-form').addEventListener('submit', async (event) => {
         event.preventDefault();
+
+        // Hent det innloggede brukernavnet
+        const username = localStorage.getItem('username');
+
+        // Sjekk om brukeren er 'emilyadmin'
+        if (username !== 'emilyadmin') {
+            console.error('Only emilyadmin can create new posts.');
+            alert('You do not have permission to create posts.'); // Optional: Vis en melding til brukeren
+            return;
+        }
         
         // values for form
         const title = document.getElementById('title').value;
