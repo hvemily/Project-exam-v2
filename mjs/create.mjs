@@ -1,6 +1,16 @@
 import { createPost } from './postActions.mjs'; 
 
-//function to handle submission of form, to create post
+// Sjekk om brukeren er 'emilyadmin' og omdiriger hvis ikke
+export function checkAdminAccess() {
+    const username = localStorage.getItem('username');
+
+    if (username !== 'emilyadmin') {
+        alert('You do not have permission to create posts.');
+        window.location.href = '/post/index.html'; 
+    }
+}
+
+// Function to handle submission of form, to create post
 export function handleCreatePostForm() {
     document.getElementById('create-post-form').addEventListener('submit', async (event) => {
         event.preventDefault();

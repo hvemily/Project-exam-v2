@@ -98,3 +98,30 @@ export function checkAuth() {
     }
     return true;
 }
+
+export function setupCreatePostButton() {
+    document.addEventListener('DOMContentLoaded', () => {
+        // Hent brukernavnet fra localStorage
+        const username = localStorage.getItem('username');
+
+        // Logg brukernavnet for å se hva det er
+        console.log('Logged in user:', username); // Dette logger brukernavnet til konsollen
+
+        // Finn 'new-post-button' og legg til eventlistener hvis brukeren er 'emilyadmin'
+        const newPostButton = document.getElementById('new-post-button');
+
+        if (!newPostButton) {
+            console.error('New post button not found');
+            return;
+        }
+
+        if (username === 'emilyadmin') {
+            // Midlertidig fjern redirect for å teste sjekken
+            console.log('Navigating to create post page.'); // Dette logger hvis brukeren er 'emilyadmin'
+        } else {
+            console.log('Not allowed to create posts.'); // Dette logger hvis brukeren ikke er 'emilyadmin'
+            // Skjul knappen for andre brukere
+            newPostButton.style.display = 'none'; // Skjul knappen helt
+        }
+    });
+}

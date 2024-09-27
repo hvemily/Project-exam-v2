@@ -38,14 +38,15 @@
         import { handleFetchPosts } from '../mjs/fetch.mjs'; // Importer JavaScript-modulen
         handleFetchPosts();
 
+        
+        import { checkAuth } from '../mjs/auth.mjs';
+
+        checkAuth();
+
         document.getElementById('new-post-button').addEventListener('click', () => {
             window.location.href = 'create.html';
         })
 
-        import { checkAuth } from '../mjs/auth.mjs';
-
-// Sjekk om brukeren er innlogget
-checkAuth();
     </script>
 </body>
 </html>
