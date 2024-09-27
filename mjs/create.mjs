@@ -1,3 +1,4 @@
+import { showErrorModal } from './modal.mjs';
 import { createPost } from './postActions.mjs'; 
 
 // Sjekk om brukeren er 'emilyadmin' og omdiriger hvis ikke
@@ -5,7 +6,7 @@ export function checkAdminAccess() {
     const username = localStorage.getItem('username');
 
     if (username !== 'emilyadmin') {
-        alert('You do not have permission to create posts.');
+        showErrorModal('You do not have permission to create posts.');
         window.location.href = '/post/index.html'; 
     }
 }
@@ -21,7 +22,7 @@ export function handleCreatePostForm() {
         // Sjekk om brukeren er 'emilyadmin'
         if (username !== 'emilyadmin') {
             console.error('Only emilyadmin can create new posts.');
-            alert('You do not have permission to create posts.'); // Optional: Vis en melding til brukeren
+            showErrorModal('You do not have permission to create posts.'); // Optional: Vis en melding til brukeren
             return;
         }
         

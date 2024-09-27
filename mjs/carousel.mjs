@@ -1,3 +1,4 @@
+
 // Funksjon for å hente blogginnleggene og oppdatere karusellen
 export async function updateCarousel() {
     document.addEventListener('DOMContentLoaded', async () => {

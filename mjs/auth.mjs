@@ -1,39 +1,6 @@
 import { LOGIN_API_ENDPOINT, REGISTER_API_ENDPOINT } from './constants.mjs';
 import { storeAccessToken } from './accessToken.mjs'; 
-
-//handling login
-// Funksjon for å vise modalen med en tilpasset melding (kun én definisjon av showModal)
-function showModal(message) {
-    const modal = document.getElementById('errorModal');
-    const modalMessage = document.getElementById('modal-message');
-    const closeButton = document.querySelector('.close-btn');
-
-    if (!modal || !modalMessage) {
-        console.error('Modal or modal-message not found in the DOM');
-        return;
-    }
-
-    // Sett feilmeldingen
-    modalMessage.textContent = message;
-
-    // Vis modalen
-    modal.style.display = 'block';
-
-    // Lukk modalen når brukeren klikker på close-knappen
-    closeButton.onclick = function() {
-        modal.style.display = 'none';
-    };
-
-    // Lukk modalen når brukeren klikker utenfor modalinnholdet
-    window.onclick = function(event) {
-        if (event.target === modal) {
-            modal.style.display = 'none';
-        }
-    };
-}
-
-
-
+import { showModal } from './modal.mjs';
 
 // Funksjonen for å håndtere registrering
 export function handleRegister() {
@@ -153,7 +120,7 @@ export function checkAuth() {
     const username = localStorage.getItem('username');
     
     if (!token || !username) {
-        alert('You are not logged in. Redirecting to login page.');
+        showModal('You are not logged in. Redirecting to login page.');
         window.location.href = '/account/login.html';
         return false;
     }
