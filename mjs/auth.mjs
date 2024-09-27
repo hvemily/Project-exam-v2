@@ -2,6 +2,98 @@ import { LOGIN_API_ENDPOINT, REGISTER_API_ENDPOINT } from './constants.mjs';
 import { storeAccessToken } from './accessToken.mjs'; 
 
 //handling login
+// Funksjon for å vise modalen med en tilpasset melding (kun én definisjon av showModal)
+function showModal(message) {
+    const modal = document.getElementById('errorModal');
+    const modalMessage = document.getElementById('modal-message');
+    const closeButton = document.querySelector('.close-btn');
+
+    if (!modal || !modalMessage) {
+        console.error('Modal or modal-message not found in the DOM');
+        return;
+    }
+
+    // Sett feilmeldingen
+    modalMessage.textContent = message;
+
+    // Vis modalen
+    modal.style.display = 'block';
+
+    // Lukk modalen når brukeren klikker på close-knappen
+    closeButton.onclick = function() {
+        modal.style.display = 'none';
+    };
+
+    // Lukk modalen når brukeren klikker utenfor modalinnholdet
+    window.onclick = function(event) {
+        if (event.target === modal) {
+            modal.style.display = 'none';
+        }
+    };
+}
+
+
+
+
+// Funksjonen for å håndtere registrering
+export function handleRegister() {
+    document.getElementById('register-form').addEventListener('submit', function(event) {
+        event.preventDefault(); 
+
+        const name = document.getElementById('name-input').value;
+        const email = document.getElementById('email-input').value;
+        const password = document.getElementById('password-input').value;
+
+        // Sjekk om e-posten er gyldig (f.eks. må slutte på @stud.noroff.no)
+        if (!email.endsWith('@stud.noroff.no')) {
+            showModal('Email must end with @stud.noroff.no.');
+            return;
+        }
+
+        // Valider at passordet er langt nok
+        if (password.length < 8) {
+            showModal('Password must be at least 8 characters long.');
+            return; 
+        }
+
+        // send post-req to API for registration
+        fetch(REGISTER_API_ENDPOINT, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ name, email, password })
+        })
+        .then(response => {
+            if (!response.ok) {
+                return response.json().then(err => {
+                    // Tilpass feilmeldingen basert på responsen fra serveren
+                    if (err.message.includes('email')) {
+                        throw new Error('This email is already registered.');
+                    } else if (err.message.includes('password')) {
+                        throw new Error('Password does not meet the requirements.');
+                    } else {
+                        throw new Error(`Registration failed: ${err.message || 'Unknown error'}`);
+                    }
+                });
+            }
+            return response.json(); 
+        })
+        .then(() => {
+            showModal('Registration successful! Redirecting to login page.');
+            setTimeout(() => {
+                window.location.href = './login.html'; // redirecting to login page after registration
+            }, 2000);
+        })
+        .catch(error => {
+            showModal(`Registration failed: ${error.message}`); 
+        });
+    });
+}
+
+
+
+// Funksjonen for å håndtere innlogging (gjenbruk av samme showModal-funksjon)
 export function handleLogin() {
     document.getElementById('login-form').addEventListener('submit', function(event) {
         event.preventDefault(); 
@@ -20,71 +112,40 @@ export function handleLogin() {
         .then(response => {
             if (!response.ok) {
                 return response.json().then(err => {
-                    throw new Error(`Login failed: ${err.message}`);
+                    // Sjekk om err.message finnes, hvis ikke bruk en fallback
+                    const errorMessage = err.message || 'Wrong password. Try Again.';
+                    
+                    // Tilpass feilmeldingen basert på hva som finnes i meldingen
+                    if (errorMessage.includes('email')) {
+                        throw new Error('Email not found.');
+                    } else if (errorMessage.includes('password')) {
+                        throw new Error('Incorrect password.');
+                    } else {
+                        throw new Error(`Login failed: ${errorMessage}`);
+                    }
                 });
             }
             return response.json(); 
         })
         .then(data => {
-            // does the response contain neccessary data?
             if (data?.data?.accessToken && data.data.name) {
-                //save token and username in localStorage
                 storeAccessToken(data.data.accessToken);
                 localStorage.setItem('username', data.data.name);
 
-                //redirecting to the main post/index after successfull login
+                //redirecting to the main post/index after successful login
                 window.location.href = '../post/index.html';
             } else {
-                throw new Error('Invalid response from server');
+                throw new Error('Invalid response from server.');
             }
         })
         .catch(error => {
-            alert(error.message); // show error to the viewer
+            showModal(`Login failed: ${error.message}`); 
         });
     });
 }
 
-// function to handle registration
-export function handleRegister() {
-    document.getElementById('register-form').addEventListener('submit', function(event) {
-        event.preventDefault(); 
 
-        const name = document.getElementById('name-input').value;
-        const email = document.getElementById('email-input').value;
-        const password = document.getElementById('password-input').value;
 
-        // Valider at passordet er langt nok før vi sender forespørselen til API-et
-        if (password.length < 8) {
-            alert('Password must be at least 8 characters long.');
-            return; 
-        }
-
-        // send post-req to API for registration
-        fetch(REGISTER_API_ENDPOINT, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ name, email, password })
-        })
-        .then(response => {
-            if (!response.ok) {
-                return response.json().then(err => {
-                    throw new Error(`Registration failed: ${err.message || 'Unknown error'}`);
-                });
-            }
-            return response.json(); 
-        })
-        .then(() => {
-            alert('Registration successful! Redirecting to login page.');
-            window.location.href = './login.html'; 
-            //redirecting to loginpage after registration
-        })
-        .catch(error => {
-            alert(`Registration failed: ${error.message}`); 
-        });
-    });
-}
 
 // function to check if the user is logged in or not
 export function checkAuth() {
