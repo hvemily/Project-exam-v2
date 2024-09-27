@@ -1,3 +1,5 @@
+import { showModal } from "./modal.mjs";
+
 // share.mjs
 export function getPostIdFromUrl() {
     const params = new URLSearchParams(window.location.search);
@@ -22,7 +24,7 @@ export function setupShareButton() {
       const shareableUrl = `${window.location.origin}/post.html?id=${postId}`; // Lag delbar URL
         navigator.clipboard.writeText(shareableUrl)
             .then(() => {
-                alert('Post URL copied to clipboard!');
+                showModal('Post URL copied to clipboard!');
             })
             .catch(err => {
                 console.error('Failed to copy URL: ', err);
