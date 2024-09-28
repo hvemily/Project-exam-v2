@@ -414,6 +414,7 @@ h3.blog-title{
 
 textarea#body{
     height: 300px;
+    resize: none;
 }
 
 input[type="text"], textarea {
