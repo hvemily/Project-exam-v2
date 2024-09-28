@@ -76,15 +76,16 @@ export async function handleFetchPosts() {
             postElement.innerHTML = `
                 <h3 class="blog-title">${post.title}</h3>
                 <img src="${post.media.url}" alt="${post.media.alt}" class="blog-img">
-                <p class="tags">Tags: ${post.tags.join(', ')}</p>
                 <p class="author">By: ${post.author.name}</p>
             `;
 
             // Vis rediger og slett knapper bare for brukerens egne innlegg
             if (post.author.name === username) {
                 postElement.innerHTML += `
-                    <button class="edit-button" data-post-id="${post.id}">Edit</button>
-                    <button class="delete-button" data-post-id="${post.id}">Delete</button>
+                <div class="buttons">
+                    <button class="edit-button" data-post-id="${post.id}">edit</button>
+                    <button class="delete-button" data-post-id="${post.id}">delete</button>
+                </div>
                 `;
             }
 
