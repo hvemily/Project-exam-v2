@@ -20,6 +20,7 @@ a:hover{
 }
 
 body {
+    width: 100%;
     background-color: rgb(52, 73, 102);
     display: flex;
     flex-direction: column;
