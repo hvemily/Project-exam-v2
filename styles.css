@@ -163,10 +163,13 @@ h3.blog-title{
     padding-bottom: 10px;
     border: none;
     border-radius: 20px;
+    transition: background-color 0.3s, color 0.3s;
 }
 
 #share-button:hover{
     cursor: pointer;
+    background-color: rgb(230, 170, 206);
+    color: rgb(13, 24, 33);
 }
 
 /*login and register-form*/
