@@ -82,7 +82,7 @@ export function initializeEditPage() {
 
     checkAuth();
 
-    // Hent postId fra URL
+    // gent postId from url
     const urlParams = new URLSearchParams(window.location.search);
     const postId = urlParams.get('id');
     

@@ -107,7 +107,7 @@ export async function handleFetchPosts() {
 }
 
 
-// Function to fetch and display posts on the landing page
+// function to fetch and display posts on the landing page
 export async function handleFetchPostsForLanding(targetDivId = 'landing-posts-list') {
     // Fetch all posts for the landing page
     const url = `${API_URL}/blog/posts/emilyadmin`;
@@ -120,7 +120,7 @@ export async function handleFetchPostsForLanding(targetDivId = 'landing-posts-li
     }
 
     if (data && data.data && data.data.length > 0) {
-        postsList.innerHTML = ''; // clear existing posts.
+        postsList.innerHTML = ''; 
 
         data.data.forEach(post => {
             const postElement = document.createElement('div');
@@ -129,7 +129,7 @@ export async function handleFetchPostsForLanding(targetDivId = 'landing-posts-li
             // format updated date.
             const updatedDate = new Date(post.updated).toLocaleDateString();
         
-            // Create the post HTML
+            // create post html
             postElement.innerHTML = `
                 <a href="post.html?id=${post.id}" class="post-link">
                     <img src="${post.media.url}" alt="${post.media.alt}" class="blog-img">
