@@ -35,13 +35,13 @@ A form for new users to register by providing their name, email, and password.
 API Integration
 The project interacts with the following API endpoints:
 
-GET /blog/posts/<name>: Fetch all posts by a specific user.
-GET /blog/posts/<name>/<id>: Fetch a single post by its ID.
-PUT /blog/posts/<name>/<id>: Update a specific post.
-DELETE /blog/posts/<name>/<id>: Delete a specific post.
-POST /auth/register: Register a new user.
-POST /auth/login: Log in an existing user.
-The API expects a valid token for authenticated requests (i.e., for updating and deleting posts).
+* GET /blog/posts/<name>: Fetch all posts by a specific user.
+* GET /blog/posts/<name>/<id>: Fetch a single post by its ID.
+* PUT /blog/posts/<name>/<id>: Update a specific post.
+* DELETE /blog/posts/<name>/<id>: Delete a specific post.
+* POST /auth/register: Register a new user.
+* POST /auth/login: Log in an existing user.
+* The API expects a valid token for authenticated requests (i.e., for updating and deleting posts).
 
 User Stories
 As a user:
