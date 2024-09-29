@@ -34,9 +34,7 @@ export function handleRegister() {
         .then(response => response.json()
         .then(data => {
             if (!response.ok) {
-                // Håndter API-feilresponsen og vis i modalen
-                console.error('Error response from API:', data);
-                
+
                 const errorMessage = data.errors && data.errors.length > 0 
                     ? data.errors[0].message 
                     : 'Unknown error occurred';
@@ -45,15 +43,12 @@ export function handleRegister() {
                 return;
             }
 
-            // Hvis registrering er vellykket
             showModal('Registration successful! Redirecting to login page.');
             setTimeout(() => {
-                window.location.href = './login.html'; // Redirecter til login-side etter registrering
+                window.location.href = './login.html';
             }, 2000);
         }))
         .catch(error => {
-            // Håndter feil som ikke er relatert til API-svaret
-            console.error('Catch error:', error);
             showModal(`Registration failed: ${error.message}`);
         });
     });
@@ -136,16 +131,15 @@ export function setupCreatePostButton() {
         const newPostButton = document.getElementById('new-post-button');
 
         if (!newPostButton) {
-            console.error('New post button not found');
             return;
         }
 
+        // Vis knappen kun hvis brukeren er emilyadmin
         if (username === 'emilyadmin') {
-
-        } else {
-            alert('Not allowed to create posts.');
-            // hide button if emilyadmin isnt the user
-            newPostButton.style.display = 'none'; 
+            newPostButton.style.display = 'inline-block'; // Vis knappen for emilyadmin som inline-block
         }
     });
 }
+
+
+
