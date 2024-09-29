@@ -552,5 +552,40 @@ form#edit-form{
 }
 
 
+@media (max-width: 600px) {
+    
+    body{
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        margin: 0 auto;
+    }
+    
+    h1 {
+        font-size: 1.8rem; 
+    }
 
+    .d-header {
+        flex-direction: column; 
+        text-align: center;
+    }
 
+    .desktop-header-left, .desktop-header-right {
+        margin-bottom: 10px;
+    }
+
+    .header-logo {
+        width: 150px; 
+    }
+
+    .login, .register {
+        display: block; 
+        margin-bottom: 10px;
+    }
+
+    .landing-posts-list{
+        margin: 0 auto;
+    }
+
+}
