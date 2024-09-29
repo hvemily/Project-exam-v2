@@ -117,6 +117,12 @@ h3.blog-title{
 }
 
 
+.latest{
+    margin: 20px;
+    font-size: 25px;
+    color: rgb(13, 24, 33)
+}
+
 /*posts*/
 #single-post{
     display: flex;
