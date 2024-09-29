@@ -7,11 +7,11 @@ Features
 
 * Blog Post Management: Owners can create, edit, and delete their blog posts. Users can view posts and navigate through the blog feed.
 
-*Interactive Carousel: A carousel displaying the latest blog posts on the blog feed page.
+* Interactive Carousel: A carousel displaying the latest blog posts on the blog feed page.
 
-*User Authentication: Owners can log in and manage their posts, while users can view the blog feed and individual posts.
+* User Authentication: Owners can log in and manage their posts, while users can view the blog feed and individual posts.
 
-*API Integration: The application interacts with a blogging API to fetch, create, update, and delete posts.
+* API Integration: The application interacts with a blogging API to fetch, create, update, and delete posts.
 
 
 Pages
