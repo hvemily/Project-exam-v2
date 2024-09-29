@@ -1,12 +1,11 @@
 import { showModal } from "./modal.mjs";
 
-// share.mjs
 export function getPostIdFromUrl() {
     const params = new URLSearchParams(window.location.search);
     return params.get('id');
 }
 
-// Funksjon for å legge til en delingsfunksjonalitet til delingsknappen
+// function to add sharing possibility
 export function setupShareButton() {
     const shareButton = document.getElementById('share-button');
     if (!shareButton) {

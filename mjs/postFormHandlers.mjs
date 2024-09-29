@@ -3,17 +3,11 @@ import { handleFetchPostById } from './fetch.mjs';
 import { deletePost } from './postActions.mjs';
 import { showModal } from './modal.mjs';
 
-// Handle populate form with post data for editing
 export async function populateEditForm(postId) {
     const post = await handleFetchPostById(postId);
     const username = localStorage.getItem('username');
 
-    if (!post) {
-        showModal('Post not found', {
-            onClose: () => window.location.href = 'index.html'
-        });
-        return;
-    }
+    if (!post) return;
 
     if (post.author.name !== username) {
         showModal('You do not have permission to edit this post.', {
@@ -29,10 +23,10 @@ export async function populateEditForm(postId) {
     document.getElementById('media-alt').value = post.media?.alt || '';
 }
 
-// handle edit post form submission
 export function handleEditPostForm(postId) {
     document.getElementById('edit-form').addEventListener('submit', async (event) => {
         event.preventDefault();
+
         const title = document.getElementById('title').value;
         const body = document.getElementById('body').value;
         const tags = document.getElementById('tags').value.split(',').map(tag => tag.trim());
@@ -46,18 +40,14 @@ export function handleEditPostForm(postId) {
             showModal('Post updated successfully!', {
                 onClose: () => window.location.href = 'index.html'
             });
-        } catch (error) {
+        } catch {
             showModal('Failed to update post.');
         }
     });
 }
 
-// handle delete post
 export function handleDeletePost(postId) {
-    const deleteButton = document.getElementById('delete-button');
-    if (!deleteButton) return;
-
-    deleteButton.addEventListener('click', () => {
+    document.getElementById('delete-button').addEventListener('click', () => {
         showModal('Are you sure you want to delete this post?', {
             confirmText: 'Yes, delete',
             cancelText: 'Cancel',
@@ -67,7 +57,7 @@ export function handleDeletePost(postId) {
                     showModal('Post deleted successfully', {
                         onClose: () => window.location.href = 'index.html'
                     });
-                } catch (error) {
+                } catch {
                     showModal('Failed to delete post.');
                 }
             }
@@ -75,11 +65,9 @@ export function handleDeletePost(postId) {
     });
 }
 
-// handle cancel edit
 export function handleCancelEdit() {
-    const cancelButton = document.getElementById('cancel-button');
-    cancelButton.addEventListener('click', () => {
-        showModal('Are you sure you want to cancel?', {
+    document.getElementById('cancel-button').addEventListener('click', () => {
+        showModal('Are you sure you want to cancel? Changes will not be saved.', {
             confirmText: 'Yes, cancel',
             cancelText: 'Keep editing',
             onConfirm: () => window.location.href = 'index.html'

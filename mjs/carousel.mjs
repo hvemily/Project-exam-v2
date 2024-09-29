@@ -1,3 +1,4 @@
+//carousel 
 export async function updateCarousel() {
     document.addEventListener('DOMContentLoaded', async () => {
         const carouselContainer = document.getElementById('carousel-container');
@@ -29,6 +30,8 @@ export async function updateCarousel() {
     });
 }
 
+
+//navigation w/next and previous//
 function setupCarouselNavigation() {
     const slides = document.querySelectorAll('.carousel-slide');
     const prevBtn = document.getElementById('prevBtn');

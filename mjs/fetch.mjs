@@ -1,8 +1,9 @@
 import { API_URL } from "./constants.mjs";
 import { getAccessToken } from './accessToken.mjs';
 import { deletePost } from "./postActions.mjs";
+import { showModal } from "./modal.mjs";
 
-// Centralized fetch function with retry and error handling
+// centralized fetch function with retry and error handling.
 export async function performFetch(url, options = {}, retries = 3) {
     const REQUEST_DELAY_MS = 1000;
     const now = Date.now();
@@ -36,7 +37,7 @@ export async function performFetch(url, options = {}, retries = 3) {
     }
 }
 
-// Fetch all posts and display them
+// fetch all posts and display 
 export async function handleFetchPosts() {
     const token = getAccessToken();
     const username = localStorage.getItem('username');
@@ -119,13 +120,13 @@ export async function handleFetchPostsForLanding(targetDivId = 'landing-posts-li
     }
 
     if (data && data.data && data.data.length > 0) {
-        postsList.innerHTML = ''; // Clear existing posts
+        postsList.innerHTML = ''; // clear existing posts.
 
         data.data.forEach(post => {
             const postElement = document.createElement('div');
             postElement.classList.add('post-item');
         
-            // Format the updated date
+            // format updated date.
             const updatedDate = new Date(post.updated).toLocaleDateString();
         
             // Create the post HTML
@@ -144,7 +145,7 @@ export async function handleFetchPostsForLanding(targetDivId = 'landing-posts-li
     }
 }
 
-// Function to fetch a specific post by ID
+// fetch specific post by id.
 export async function handleFetchPostById(postId) {
     const url = `${API_URL}/blog/posts/emilyadmin/${postId}`;
     const response = await performFetch(url);
@@ -152,26 +153,28 @@ export async function handleFetchPostById(postId) {
     if (response && response.data) {
         const post = response.data;
 
-
-        // Hvis post er en tom array, logg en advarsel
+        // if post is empty array, show modal.
         if (Array.isArray(post) && post.length === 0) {
-            console.warn("No post found for this ID.");
-            alert('No post found for this ID.');
+            showModal('No post found for this ID.', {
+                onClose: () => window.location.href = '/post/index.html' 
+            });
             return null;
         }
 
-        // Sjekk om det er en enkelt post
+        // checking if it's a single post object.
         if (typeof post === 'object' && !Array.isArray(post)) {
-            return post; // Returner posten
+            return post; // return post.
         } else {
-            console.error('Unexpected response format:', response);
-            alert('Failed to fetch post');
+            showModal('Failed to fetch post: Unexpected response format.', {
+                onClose: () => window.location.href = '/post/index.html'
+            });
             return null;
         }
     } else {
-        console.error('Response data is missing or malformed:', response);
-        alert('Failed to fetch post');
-        return null;  // Returner null hvis ingen post ble funnet
+        showModal('Failed to fetch post: Data is missing or malformed.', {
+            onClose: () => window.location.href = '/post/index.html'
+        });
+        return null;  // return if no post is found.
     }
 }
 

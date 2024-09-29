@@ -2,6 +2,7 @@ import { LOGIN_API_ENDPOINT, REGISTER_API_ENDPOINT } from './constants.mjs';
 import { storeAccessToken } from './accessToken.mjs';
 import { showModal } from './modal.mjs';
 
+//handle register function
 export function handleRegister() {
     document.getElementById('register-form').addEventListener('submit', function(event) {
         event.preventDefault();
@@ -40,6 +41,7 @@ export function handleRegister() {
     });
 }
 
+//handle login function
 export function handleLogin() {
     document.getElementById('login-form').addEventListener('submit', function(event) {
         event.preventDefault();
@@ -74,6 +76,7 @@ export function handleLogin() {
     });
 }
 
+//checking autorization
 export function checkAuth() {
     const token = localStorage.getItem('authToken');
     const username = localStorage.getItem('username');

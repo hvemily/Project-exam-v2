@@ -3,19 +3,10 @@ import { getAccessToken } from './accessToken.mjs';
 import { performFetch } from './fetch.mjs';
 import { checkAuth } from './auth.mjs';
 
-// Funksjon for å opprette ny post
 export async function createPost(postData) {
     if (!checkAuth()) return;
 
     const username = localStorage.getItem('username');
-
-    // Sjekk om brukeren er 'emilyadmin'
-    if (username !== 'emilyadmin') {
-        console.error('Only emilyadmin can create new posts.');
-        alert('You do not have permission to create posts.'); // Optional: Vis en melding til brukeren
-        return;
-    }
-
     const url = `${API_URL}/blog/posts/${username}`;
     const token = getAccessToken();
 
@@ -29,8 +20,6 @@ export async function createPost(postData) {
     });
 }
 
-
-// Funksjon for å slette post
 export async function deletePost(postId) {
     if (!checkAuth()) return;
 
@@ -46,7 +35,6 @@ export async function deletePost(postId) {
     });
 }
 
-// Funksjon for å oppdatere post
 export async function updatePost(postId, updatedPost) {
     if (!checkAuth()) return;
 
@@ -57,7 +45,7 @@ export async function updatePost(postId, updatedPost) {
         method: 'PUT',
         headers: {
             'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json',
+            'Content-Type': 'application/json'
         },
         body: JSON.stringify(updatedPost)
     });

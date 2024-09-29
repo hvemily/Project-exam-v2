@@ -1,6 +1,7 @@
 import { createPost } from './postActions.mjs';
 import { showModal } from './modal.mjs';
 
+//checking if admin to have access to create post
 export function checkAdminAccess() {
     const username = localStorage.getItem('username');
     if (username !== 'emilyadmin') {
@@ -10,6 +11,7 @@ export function checkAdminAccess() {
     }
 }
 
+//create post
 export function handleCreatePostForm() {
     document.getElementById('create-post-form').addEventListener('submit', async (event) => {
         event.preventDefault();
