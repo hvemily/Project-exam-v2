@@ -255,7 +255,6 @@ h3.blog-title{
 }
 
 #new-post-button{
-    display: none;
     background-color: rgb(230, 170, 206);
     color: black;
     padding: 8px;

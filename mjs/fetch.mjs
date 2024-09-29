@@ -1,8 +1,8 @@
 import { API_URL } from "./constants.mjs";
-import { getAccessToken } from './accessToken.mjs'; 
+import { getAccessToken } from './accessToken.mjs';
 import { deletePost } from "./postActions.mjs";
 
-// Sentralisert fetch med retry og feilbehandling
+// Centralized fetch function with retry and error handling
 export async function performFetch(url, options = {}, retries = 3) {
     const REQUEST_DELAY_MS = 1000;
     const now = Date.now();
@@ -16,18 +16,13 @@ export async function performFetch(url, options = {}, retries = 3) {
 
     try {
         const response = await fetch(url, options);
-
         if (response.status === 429 && retries > 0) {
             await new Promise(resolve => setTimeout(resolve, 2000));
             return performFetch(url, options, retries - 1);
         }
 
-        // Sjekk om responsen har innhold før vi prøver å parse det
         const isResponseEmpty = response.status === 204 || response.headers.get('content-length') === '0';
-
-        if (isResponseEmpty) {
-            return null; // Returner null for tom respons
-        }
+        if (isResponseEmpty) return null;
 
         if (!response.ok) {
             const error = await response.json();
@@ -36,38 +31,28 @@ export async function performFetch(url, options = {}, retries = 3) {
 
         return await response.json();
     } catch (error) {
-        console.error('Fetch failed:', error);
-        alert('Failed to fetch data');
+        showModal('Failed to fetch data.');
         return null;
     }
 }
 
-// Function to fetch and display all posts
+// Fetch all posts and display them
 export async function handleFetchPosts() {
-    const token = getAccessToken(); 
-    const username = localStorage.getItem('username'); 
-
+    const token = getAccessToken();
+    const username = localStorage.getItem('username');
     if (!token || !username) {
-        alert('You are not logged in. Redirecting to login page.');
         window.location.href = '/account/login.html';
         return;
     }
 
-    // Fetch all posts from the API
     const url = `${API_URL}/blog/posts/emilyadmin`;
     const data = await performFetch(url, {
         headers: {
-            'Authorization': `Bearer ${token}`,
-        },
+            'Authorization': `Bearer ${token}`
+        }
     });
 
     const postsList = document.getElementById('posts-list');
-
-    if (!postsList) {
-        console.warn('Element with id "posts-list" not found.');
-        return;
-    }
-
     if (data && data.data && data.data.length > 0) {
         postsList.innerHTML = '';
         data.data.forEach(post => {
@@ -79,13 +64,12 @@ export async function handleFetchPosts() {
                 <p class="author">By: ${post.author.name}</p>
             `;
 
-            // Vis rediger og slett knapper bare for brukerens egne innlegg
             if (post.author.name === username) {
                 postElement.innerHTML += `
-                <div class="buttons">
-                    <button class="edit-button" data-post-id="${post.id}">edit</button>
-                    <button class="delete-button" data-post-id="${post.id}">delete</button>
-                </div>
+                    <div class="buttons">
+                        <button class="edit-button" data-post-id="${post.id}">edit</button>
+                        <button class="delete-button" data-post-id="${post.id}">delete</button>
+                    </div>
                 `;
             }
 
@@ -102,28 +86,25 @@ export async function handleFetchPosts() {
         document.querySelectorAll('.delete-button').forEach(button => {
             button.addEventListener('click', async () => {
                 const postId = button.getAttribute('data-post-id');
-                
-                // Bekreftelse før sletting
-                const userConfirmed = confirm('Are you sure you want to delete this post? This action cannot be undone.');
-
-                if (userConfirmed) {
-                    try {
-                        await deletePost(postId);  // Kaller deletePost funksjonen
-                        alert('Post deleted successfully');
-                        handleFetchPosts();  // Oppdater innleggene etter sletting
-                    } catch (error) {
-                        console.error('Failed to delete post:', error);
-                        alert('Failed to delete post');
+                showModal('Are you sure you want to delete this post?', {
+                    confirmText: 'Yes, delete',
+                    cancelText: 'Cancel',
+                    onConfirm: async () => {
+                        try {
+                            await deletePost(postId);
+                            handleFetchPosts();
+                        } catch (error) {
+                            showModal('Failed to delete post.');
+                        }
                     }
-                } else {
-                    alert('Post deletion cancelled.');
-                }
+                });
             });
         });
     } else {
-        alert('Failed to fetch posts');
+        showModal('Failed to fetch posts.');
     }
 }
+
 
 // Function to fetch and display posts on the landing page
 export async function handleFetchPostsForLanding(targetDivId = 'landing-posts-list') {

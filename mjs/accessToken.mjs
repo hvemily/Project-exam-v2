@@ -1,10 +1,7 @@
-// accessToken.mjs
-//storing token
 export function storeAccessToken(token) {
-  localStorage.setItem('authToken', token); 
+  localStorage.setItem('authToken', token);
 }
 
-//accessing token
 export function getAccessToken() {
-  return localStorage.getItem('authToken'); 
+  return localStorage.getItem('authToken');
 }
