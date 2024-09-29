@@ -26,7 +26,6 @@ export async function updateCarousel() {
                         <a href="/Project-exam-v2/post.html?id=${post.id}" class="carousel-link">
                         <img src="${post.media.url}" alt="${post.media.alt}">
                         <h3>${post.title}</h3>
-                        <p>${post.body.slice(0, 100)}...</p>
                     </a>
                 `;
                 carouselContainer.appendChild(slide);

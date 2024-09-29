@@ -1,12 +1,12 @@
-import { showErrorModal } from './modal.mjs';
 import { createPost } from './postActions.mjs'; 
+import { showModal } from './modal.mjs';
 
 // Sjekk om brukeren er 'emilyadmin' og omdiriger hvis ikke
 export function checkAdminAccess() {
     const username = localStorage.getItem('username');
 
     if (username !== 'emilyadmin') {
-        showErrorModal('You do not have permission to create posts.');
+        showModal('You do not have permission to create posts.');
         window.location.href = '/post/index.html'; 
     }
 }
@@ -16,24 +16,20 @@ export function handleCreatePostForm() {
     document.getElementById('create-post-form').addEventListener('submit', async (event) => {
         event.preventDefault();
 
-        // Hent det innloggede brukernavnet
         const username = localStorage.getItem('username');
 
-        // Sjekk om brukeren er 'emilyadmin'
         if (username !== 'emilyadmin') {
             console.error('Only emilyadmin can create new posts.');
-            showErrorModal('You do not have permission to create posts.'); // Optional: Vis en melding til brukeren
+            showModal('You do not have permission to create posts.');
             return;
         }
         
-        // values for form
         const title = document.getElementById('title').value;
         const body = document.getElementById('body').value;
         const tags = document.getElementById('tags').value.split(',').map(tag => tag.trim());
         const mediaUrl = document.getElementById('media-url').value;
         const mediaAlt = document.getElementById('media-alt').value;
 
-        // create post data object
         const postData = { 
             title, 
             body, 
@@ -41,12 +37,22 @@ export function handleCreatePostForm() {
             media: { url: mediaUrl, alt: mediaAlt } 
         };
 
-        // create post by calling createPost-function
-        const createdPost = await createPost(postData);
+        try {
+            const createdPost = await createPost(postData);
 
-        // Hvis posten ble opprettet vellykket
-        if (createdPost) {
-            console.log('New post created:', createdPost);
+            if (createdPost) {
+                console.log('Post created successfully!', createdPost);
+                showModal('New post created!', createdPost, {
+                    onClose: () => {
+                        console.log('Modal closed, redirecting...');
+                        window.location.href = 'post/index.html'; // Rediriger til post/index.html når modalen lukkes
+                    }
+                });
+            }
+        } catch (error) {
+            console.error('Error creating post:', error);
+            showModal('Failed to create post.');
         }
     });
 }
+

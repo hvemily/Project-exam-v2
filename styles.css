@@ -33,6 +33,9 @@ h1 {
     margin-bottom: 2.5vh;
 }
 
+h2 {
+    text-align: center;
+}
 
 html, body{
     height: 100%;
@@ -357,32 +360,34 @@ h3.blog-title{
 
 /*modal*/
 
-/* Modal container */
+
 /* Modal container */
 .modal {
-    display: none;
-    position: fixed;
-    z-index: 1;
+    display: none; /* Modalen starter som skjult */
+    position: fixed; /* Sørger for at modalen dekker hele skjermen */
+    z-index: 9999; /* Høy z-index for å sikre at den er over andre elementer */
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(13, 24, 33, 0.8); /* Mørk bakgrunn med litt transparens */
+    background-color: rgba(13, 24, 33, 0.8); /* Mørk bakgrunn */
 }
 
-/* Modal content */
 .modal-content {
     position: relative;
     margin: 15% auto;
     padding: 20px;
     width: 80%;
     max-width: 300px;
-    background-color: rgb(230, 170, 206); /* Lys rosa bakgrunn for modalinnholdet */
-    border-radius: 10px; /* Avrundede kanter */
+    background-color: rgb(230, 170, 206); /* Lys rosa bakgrunn */
+    border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     text-align: center;
     color: rgb(13, 24, 33); /* Mørk tekstfarge */
+    z-index: 10000; /* Sørg for at modalinnholdet vises over bakgrunnen */
 }
+
+
 
 /* Close button */
 .close-btn {
@@ -398,6 +403,19 @@ h3.blog-title{
 #modal-message {
     font-size: 16px;
     color: rgb(13, 24, 33); /* Mørk tekstfarge for feilmeldingen */
+}
+
+#confirm-btn, #cancel-btn{
+    background-color: rgba(13, 24, 33, 0.8);
+    color: white;
+    margin-top: 5px;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 15px;
+}
+
+#confirm-btn:hover, #cancel-btn:hover{
+    cursor: pointer;
 }
 
 

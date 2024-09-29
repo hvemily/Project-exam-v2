@@ -2,7 +2,7 @@ import { LOGIN_API_ENDPOINT, REGISTER_API_ENDPOINT } from './constants.mjs';
 import { storeAccessToken } from './accessToken.mjs'; 
 import { showModal } from './modal.mjs';
 
-// Funksjonen for å håndtere registrering
+// handle registration
 export function handleRegister() {
     document.getElementById('register-form').addEventListener('submit', function(event) {
         event.preventDefault(); 
@@ -11,56 +11,60 @@ export function handleRegister() {
         const email = document.getElementById('email-input').value;
         const password = document.getElementById('password-input').value;
 
-        // Sjekk om e-posten er gyldig (f.eks. må slutte på @stud.noroff.no)
+        // Validere e-postformat
         if (!email.endsWith('@stud.noroff.no')) {
             showModal('Email must end with @stud.noroff.no.');
             return;
         }
 
-        // Valider at passordet er langt nok
+        // Validere passordlengde
         if (password.length < 8) {
             showModal('Password must be at least 8 characters long.');
             return; 
         }
 
-        // send post-req to API for registration
-        fetch(REGISTER_API_ENDPOINT, {
+        // Send POST-forespørsel til API for registrering
+        fetch('https://v2.api.noroff.dev/auth/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({ name, email, password })
         })
-        .then(response => {
+        .then(response => response.json()
+        .then(data => {
             if (!response.ok) {
-                return response.json().then(err => {
-                    // Tilpass feilmeldingen basert på responsen fra serveren
-                    if (err.message.includes('email')) {
-                        throw new Error('This email is already registered.');
-                    } else if (err.message.includes('password')) {
-                        throw new Error('Password does not meet the requirements.');
-                    } else {
-                        throw new Error(`Registration failed: ${err.message || 'Unknown error'}`);
-                    }
-                });
+                // Håndter API-feilresponsen og vis i modalen
+                console.error('Error response from API:', data);
+                
+                const errorMessage = data.errors && data.errors.length > 0 
+                    ? data.errors[0].message 
+                    : 'Unknown error occurred';
+                    
+                showModal(`Registration failed: ${errorMessage}`);
+                return;
             }
-            return response.json(); 
-        })
-        .then(() => {
+
+            // Hvis registrering er vellykket
             showModal('Registration successful! Redirecting to login page.');
             setTimeout(() => {
-                window.location.href = './login.html'; // redirecting to login page after registration
+                window.location.href = './login.html'; // Redirecter til login-side etter registrering
             }, 2000);
-        })
+        }))
         .catch(error => {
-            showModal(`Registration failed: ${error.message}`); 
+            // Håndter feil som ikke er relatert til API-svaret
+            console.error('Catch error:', error);
+            showModal(`Registration failed: ${error.message}`);
         });
     });
 }
 
 
 
-// Funksjonen for å håndtere innlogging (gjenbruk av samme showModal-funksjon)
+
+
+
+// handle login function
 export function handleLogin() {
     document.getElementById('login-form').addEventListener('submit', function(event) {
         event.preventDefault(); 
@@ -68,7 +72,6 @@ export function handleLogin() {
         const email = document.getElementById('email-input').value;
         const password = document.getElementById('password-input').value;
 
-        // Send POST-forespørsel til API for innlogging
         fetch(LOGIN_API_ENDPOINT, { 
             method: 'POST',
             headers: {
@@ -79,10 +82,8 @@ export function handleLogin() {
         .then(response => {
             if (!response.ok) {
                 return response.json().then(err => {
-                    // Sjekk om err.message finnes, hvis ikke bruk en fallback
                     const errorMessage = err.message || 'Wrong password. Try Again.';
                     
-                    // Tilpass feilmeldingen basert på hva som finnes i meldingen
                     if (errorMessage.includes('email')) {
                         throw new Error('Email not found.');
                     } else if (errorMessage.includes('password')) {
@@ -129,13 +130,9 @@ export function checkAuth() {
 
 export function setupCreatePostButton() {
     document.addEventListener('DOMContentLoaded', () => {
-        // Hent brukernavnet fra localStorage
+        // getting username from local storage
         const username = localStorage.getItem('username');
 
-        // Logg brukernavnet for å se hva det er
-        console.log('Logged in user:', username); // Dette logger brukernavnet til konsollen
-
-        // Finn 'new-post-button' og legg til eventlistener hvis brukeren er 'emilyadmin'
         const newPostButton = document.getElementById('new-post-button');
 
         if (!newPostButton) {
@@ -144,12 +141,11 @@ export function setupCreatePostButton() {
         }
 
         if (username === 'emilyadmin') {
-            // Midlertidig fjern redirect for å teste sjekken
-            console.log('Navigating to create post page.'); // Dette logger hvis brukeren er 'emilyadmin'
+
         } else {
-            console.log('Not allowed to create posts.'); // Dette logger hvis brukeren ikke er 'emilyadmin'
-            // Skjul knappen for andre brukere
-            newPostButton.style.display = 'none'; // Skjul knappen helt
+            alert('Not allowed to create posts.');
+            // hide button if emilyadmin isnt the user
+            newPostButton.style.display = 'none'; 
         }
     });
 }

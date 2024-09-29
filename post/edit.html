@@ -23,6 +23,7 @@
     </section>
 
     <h1>edit post</h1>
+    <a href="/post/index.html"><h2>‹back to posts</a></h2>
     <form id="edit-form">
         <label for="title">title:</label>
         <input type="text" id="title" name="title" required>
@@ -39,18 +40,27 @@
         <label for="media-alt">media alt text:</label>
         <input type="text" id="media-alt" name="media-alt">
 
-    <div id="form-buttons">
-        <button type="submit">save</button>
-        <button type="button" id="cancel-button">cancel</button> 
-        <button type="button" id="delete-button">delete</button> 
-    </div>
+        <div id="form-buttons">
+            <button type="submit" id="save-button">Save</button>
+            <button type="button" id="cancel-button">Cancel</button>
+            <button type="button" id="delete-button">Delete</button>
+        </div>
     </form>
+
+    
+    <div id="errorModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+                <p id="modal-message">Login failed. Please try again.</p>
+        </div>
+    </div>
 
     <section class="footer">
         <div>
             <p>hotView labs. est 2019</p>
         </div>
     </section>
+
 
     <script type="module">
         import { populateEditForm, handleEditPostForm, handleDeletePost, handleCancelEdit } from '../mjs/postFormHandlers.mjs';
