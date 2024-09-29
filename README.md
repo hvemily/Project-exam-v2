@@ -57,20 +57,19 @@ As the blog owner:
 
 To access the owner/admin features, log in using the following credentials:
 
-Email: emilyadmin@stud.noroff.no
-Password: emilyadmin
+Please use the word document provided in the delivery file on teams. 
 
 
-Design and Wireframes
+* Design and Wireframes
 The wireframes and style guide for this project were created using Figma. You can view the design assets through the delivery in Teams.
 
-Project Management
+* Project Management
 The planning and task management for this project were handled using GitHub Projects. You can view the project board here: [GitHub Project Board](https://github.com/users/hvemily/projects/4)
 
-Known Issues
+* Known Issues
 No Frameworks Used: The project does not use any CSS or JS frameworks due to project restrictions.
 Error Handling: All error handling is done through modals instead of the console.
 
-License
+* License
 This project is licensed under Noroff and is part of the curriculum for the Front-End Development program.
 
