@@ -3,54 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="register page">
-    <title>hotView labs | login</title>
+    <meta name="description" content="Login page for HotView labs">
+    <title>hotView labs | Login</title>
     <link rel="stylesheet" href="../styles.css">
     <link rel="icon" href="../Images/hotview-logo.png" type="image/png">
 </head>
 <body>
-    <section class="desktop-header">
-        <div class="d-header">
-            <div class="desktop-header-left">
-                <a href="../index.html">
-                    <img src="../Images/hotview-logo.png" alt="HotView logo" class="header-logo">
-                </a>
-                <a href="../index.html" class="hotview-labs">hotView labs</a>
-            </div>
-            <div class="desktop-header-right">
-                <a href="login.html" class="login">login</a>
-                <a href="register.html" class="register">register</a>
-            </div>    
-        </div>
-    </section>
-    <h1>admin login</h1>
-    <form id="login-form" action="">
-        <input id="email-input" type="text" placeholder="e-mail" aria-label="Your e-mail" required>
-        <input id="password-input" type="password" placeholder="password" aria-label="Your Password" required>
-        <button id="login-submit" type="submit">login</button>
-    </form>
 
-    <!-- Modal for error messages -->
-    <div id="errorModal" class="modal" style="display: none;">
-        <div class="modal-content">
-            <span class="close-btn">&times;</span>
-                <p id="modal-message">Login failed. Please try again.</p>
+<header class="desktop-header">
+    <div class="d-header">
+        <div class="desktop-header-left">
+            <a href="../index.html">
+                <img src="../Images/hotview-logo.png" alt="HotView logo" class="header-logo">
+            </a>
+            <a href="../index.html" class="hotview-labs">hotView labs</a>
         </div>
+        <div class="desktop-header-right">
+            <a href="login.html" class="login">login</a>
+            <a href="register.html" class="register">register</a>
+        </div>    
     </div>
+</header>
 
+<main>
+    <h1>admin login</h1>
+    <form id="login-form">
+        <input id="email-input" type="email" placeholder="e-mail" aria-label="Your email" required>
+        <input id="password-input" type="password" placeholder="password" aria-label="Your password" required>
+        <button id="login-submit" type="submit" aria-label="Submit login">login</button>
+    </form>
 
     <div class="new-user">
         <p>or</p>
-        <a href="register.html">new user</a>
+        <a href="register.html" class="button-link" aria-label="Register as a new user">new user</a>
     </div>
-    <section class="footer">
-        <div>
-            <p>hotView labs. est 2019</p>
-        </div>
-    </section>
-    <script type="module">
-        import { handleLogin } from '../mjs/auth.mjs'; // Importer JavaScript-modulen
-        handleLogin();
-    </script>
+</main>
+
+<footer class="footer">
+    <div>
+        <p>hotView labs. est 2019</p>
+    </div>
+</footer>
+
+<script type="module">
+    import { handleLogin } from '../mjs/auth.mjs'; 
+    handleLogin();
+</script>
+
 </body>
 </html>

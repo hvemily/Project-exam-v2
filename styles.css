@@ -19,6 +19,10 @@ body, html {
     overflow-x: hidden;
 }
 
+main{
+    flex-grow: 1;
+}
+
 h1 {
     font-size: 30px;
     color: rgb(230, 170, 206);
@@ -109,6 +113,7 @@ h3.blog-title{
     color: rgb(230, 170, 206);
     padding: 20px;
     text-align: center;
+    flex-shrink: 0;
 }
 
 
@@ -215,6 +220,10 @@ h3.blog-title{
     text-align: center;
     margin-top: 15px;
     line-height: 25px;
+}
+
+.small{
+    display: none;
 }
 
 

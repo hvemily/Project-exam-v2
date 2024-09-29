@@ -39,7 +39,9 @@
     
         <label for="media-url">Media URL:</label>
         <input type="text" id="media-url" name="media-url" aria-describedby="media-url-desc">
-    
+        <small id="media-url-desc" class="small">Provide a valid and accessible media URL for your post.</small>
+
+
         <label for="media-alt">Media Alt Text:</label>
         <input type="text" id="media-alt" name="media-alt" required>
     
@@ -48,10 +50,12 @@
 
     <div id="errorModal" class="modal" role="dialog" aria-labelledby="modal-title" aria-describedby="modal-message" style="display: none;">
         <div class="modal-content">
+            <h2 id="modal-title">Error</h2> <!-- Tittel på modalen -->
             <button class="close-btn" aria-label="Close modal">&times;</button>
             <p id="modal-message">Login failed. Please try again.</p>
         </div>
     </div>
+    
 
     <footer class="footer">
         <p>hotView labs. est 2019</p>
