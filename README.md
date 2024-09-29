@@ -2,6 +2,12 @@ HotView Labs Blog Application
 Overview
 This project is a front-end interface for a blog application, developed as part of the FED1 Project Exam. The goal is to demonstrate skills in planning, design, development, and deployment using HTML, CSS, and JavaScript while interacting with an existing API for managing blog posts.
 
+
+* To access the owner/admin features, log in using the following credentials: Please use the word document provided in the delivery file on teams.
+
+
+
+
 Features
 * Responsive Design: Responsive layout to ensure the application works on devices of different screen sizes.
 
@@ -53,11 +59,6 @@ As the blog owner:
 - I can edit or delete my posts.
 - I can register a new account.
 - User Authentication
-
-
-To access the owner/admin features, log in using the following credentials:
-
-Please use the word document provided in the delivery file on teams. 
 
 
 * Design and Wireframes
