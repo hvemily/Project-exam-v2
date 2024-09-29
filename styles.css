@@ -356,12 +356,12 @@ textarea#body{
 
 input[type="text"], textarea {
     background-color: rgb(13, 24, 33);
-    color: #fff; /* Ønsket fontfarge */
+    color: #fff; 
     border: none;
     padding: 8px;
-    width: 100%; /* Juster bredden */
-    box-sizing: border-box; /* Sørger for at padding inkluderes i bredden */
-    margin-bottom: 10px; /* Mellomrom mellom feltene */
+    width: 100%; 
+    box-sizing: border-box; 
+    margin-bottom: 10px; 
     border-radius: 15px;
 }
 
