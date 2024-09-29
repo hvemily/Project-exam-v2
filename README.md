@@ -16,20 +16,20 @@ Features
 
 Pages
 
-Blog Feed Page (/index.html)
+* Blog Feed Page (/index.html)
 Displays the latest blog posts in an interactive carousel and a responsive grid view.
 
 
-Blog Post Page (/post/index.html)
+* Blog Post Page (/post/index.html)
 Displays the content of a specific blog post, including title, author, date, and media.
 
-Blog Post Edit Page (/post/edit.html)
+* Blog Post Edit Page (/post/edit.html)
 Allows the logged-in owner to edit or delete a specific blog post.
 
-Login Page (/account/login.html)
+* Login Page (/account/login.html)
 A form that lets the blog owner log in using email and password.
 
-Register Page (/account/register.html)
+* Register Page (/account/register.html)
 A form for new users to register by providing their name, email, and password.
 
 API Integration
