@@ -3,11 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>hotView labs | edit post</title>
+    <meta name="description" content="Edit post"> 
+    <title>hotView labs | Edit Post</title>
     <link rel="stylesheet" href="../styles.css">
+    <link rel="icon" href="../Images/hotview-logo.png" type="image/png">
 </head>
 <body>
-    <section class="desktop-header">
+    <header class="desktop-header">
         <div class="d-header">
             <div class="desktop-header-left">
                 <a href="../index.html">
@@ -16,29 +18,29 @@
                 <a href="../index.html" class="hotview-labs">hotView labs</a>
             </div>
             <div class="desktop-header-right">
-                <div class="desktop-header-right">
-                    <a href="../index.html">log out</a>
-                </div>    
-            </div>
-    </section>
+                <a href="../index.html" aria-label="Log out">log out</a>
+            </div>    
+        </div>
+    </header>
 
-    <h1>edit post</h1>
-    <a href="index.html"><h2>‹back to posts</a></h2>
+    <h1>Edit Post</h1>
+    <a href="index.html" aria-label="Back to posts"><h2 class="back">‹back to posts</h2></a>
+
     <form id="edit-form">
-        <label for="title">title:</label>
+        <label for="title">Title:</label>
         <input type="text" id="title" name="title" required>
 
-        <label for="body">body:</label>
+        <label for="body">Body:</label>
         <textarea id="body" name="body" required></textarea>
 
-        <label for="tags">tags:</label>
+        <label for="tags">Tags (comma-separated):</label>
         <input type="text" id="tags" name="tags">
 
-        <label for="media-url">media URL:</label>
-        <input type="text" id="media-url" name="media-url">
+        <label for="media-url">Media URL:</label>
+        <input type="text" id="media-url" name="media-url" aria-describedby="media-url-desc">
 
-        <label for="media-alt">media alt text:</label>
-        <input type="text" id="media-alt" name="media-alt">
+        <label for="media-alt">Media Alt Text:</label>
+        <input type="text" id="media-alt" name="media-alt" required>
 
         <div id="form-buttons">
             <button type="submit" id="save-button">Save</button>
@@ -47,41 +49,20 @@
         </div>
     </form>
 
-    
-    <div id="errorModal" class="modal" style="display: none;">
+    <div id="errorModal" class="modal" role="dialog" aria-labelledby="modal-title" aria-describedby="modal-message" style="display: none;">
         <div class="modal-content">
-            <span class="close-btn">&times;</span>
-                <p id="modal-message">Login failed. Please try again.</p>
+            <button class="close-btn" aria-label="Close modal">&times;</button>
+            <p id="modal-message">Login failed. Please try again.</p>
         </div>
     </div>
 
-    <section class="footer">
-        <div>
-            <p>hotView labs. est 2019</p>
-        </div>
-    </section>
-
+    <footer class="footer">
+        <p>hotView labs. est 2019</p>
+    </footer>
 
     <script type="module">
-        import { populateEditForm, handleEditPostForm, handleDeletePost, handleCancelEdit } from '../mjs/postFormHandlers.mjs';
-        import { checkAuth } from '../mjs/auth.mjs';
-    
-        checkAuth();
-    
-        const urlParams = new URLSearchParams(window.location.search);
-        const postId = urlParams.get('id');
-    
-        if (postId) {
-            populateEditForm(postId);
-            handleEditPostForm(postId);
-            handleDeletePost(postId);
-            handleCancelEdit();
-        } else {
-            console.error('No post ID found in the URL.');
-            alert('No post ID found. Redirecting to main page.');
-            window.location.href = '../index.html'; 
-        }
+        import { initializeEditPage } from '../mjs/postFormHandlers.mjs';
+        initializeEditPage();
     </script>
-    
 </body>
 </html>

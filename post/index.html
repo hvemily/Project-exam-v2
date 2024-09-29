@@ -3,12 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>hotView labs | manage posts</title>
+    <meta name="description" content="View posts from admin page">
+    <title>hotView labs | Manage Posts</title>
     <link rel="stylesheet" href="../styles.css">
+    <link rel="icon" href="../Images/hotview-logo.png" type="image/png">
 </head>
 <body>
 
-<section class="desktop-header">
+<header class="desktop-header">
     <div class="d-header">
         <div class="desktop-header-left">
             <a href="../index.html">
@@ -17,37 +19,29 @@
             <a href="../index.html" class="hotview-labs">hotview labs</a>
         </div>
         <div class="desktop-header-right">
-            <div class="desktop-header-right">
-                <a href="../index.html">log out</a>
-            </div>    
+            <a href="../index.html" aria-label="Log out">log out</a>
         </div>  
     </div>
-    </section>
+</header>
 
-    <h1>manage posts</h1>
+<h1>Manage Posts</h1>
 
-    <button id="new-post-button">create new post</button>
+<a href="create.html" id="new-post-button">create new post</a>
 
-    <div id="posts-list"></div>
+<div id="posts-list"></div>
     
-    <section class="footer">
-        <div>
-            <p>hotView labs. est 2019</p>
-        </div>
-    </section>
-    <script type="module">
-        import { handleFetchPosts } from '../mjs/fetch.mjs'; // Importer JavaScript-modulen
-        handleFetchPosts();
+<footer class="footer">
+    <div>
+        <p>hotView labs. est 2019</p>
+    </div>
+</footer>
 
-        
-        import { checkAuth } from '../mjs/auth.mjs';
+<script type="module">
+    import { handleFetchPosts } from '../mjs/fetch.mjs'; 
+    import { checkAuth } from '../mjs/auth.mjs';
 
-        checkAuth();
-
-        document.getElementById('new-post-button').addEventListener('click', () => {
-            window.location.href = 'create.html';
-        })
-
-    </script>
+    checkAuth();
+    handleFetchPosts();
+</script>
 </body>
 </html>

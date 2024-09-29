@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="HotView Labs - Stay updated on the latest trends in tech research and development.">
     <title>hotView labs | home</title>
     <link rel="stylesheet" href="./styles.css">
+    <link rel="icon" href="./Images/hotview-logo.png" type="image/png">
 </head>
 <body>
     <header class="desktop-header">
@@ -16,25 +18,28 @@
                 <a href="index.html" class="hotview-labs">hotView labs</a>
             </div>
             <div class="desktop-header-right">
-                <a href="./account/login.html" class="login">login</a>
-                <a href="./account/register.html" class="register">register</a>
+                <a href="./account/login.html" class="login" aria-label="Log in to your account">login</a>
+                <a href="./account/register.html" class="register" aria-label="Register a new account">register</a>                
             </div>    
         </div>
     </header>
     
     <section class="hero">
-        <h1>trending</h1>
+        <h1>Trending</h1>
         <div></div>
-
+    
         <div class="carousel">
             <div class="carousel-container" id="carousel-container"></div>
-            <button class="carousel-btn left" id="prevBtn">‹</button>
-            <button class="carousel-btn right" id="nextBtn">›</button>
-        </div>
-
+                <button   button class="carousel-btn left" id="prevBtn" aria-label="Previous slide">‹</button>
+                <button class="carousel-btn right" id="nextBtn" aria-label="Next slide">›</button>
+            </div>
+    </section>
+    
     <section class="features">
+        <h2>Latest Posts</h2>
         <div id="landing-posts-list"></div>
     </section>
+    
 
 
 <footer class="footer">

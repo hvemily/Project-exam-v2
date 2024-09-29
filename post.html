@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>hotView labs | home</title>
+    <meta name="description" content="HotView Labs - Read posts">
+    <title>hotView labs | Blog Post</title>
     <link rel="stylesheet" href="./styles.css">
+    <link rel="icon" href="./Images/hotview-logo.png" type="image/png">
 </head>
 <body>
     <header class="desktop-header">
@@ -16,39 +18,36 @@
                 <a href="index.html" class="hotview-labs">hotView labs</a>
             </div>
             <div class="desktop-header-right">
-                <a href="./account/login.html" class="login">login</a>
-                <a href="./account/register.html" class="register">register</a>
+                <a href="./account/login.html" class="login" aria-label="Log in to your account">login</a>
+                <a href="./account/register.html" class="register" aria-label="Register a new account">register</a>
             </div>    
         </div>
     </header>
 
-    <div id="single-post">
-        <div id="author-update">
-    <h1 id="post-title"></h1>
-    <p id="post-author"></p>
-</div>
-    <p id="post-date"></p>
-    <img id="post-image" src="" alt="">
-    <p id="post-body"></p>
-    </div>
+    <article id="single-post">
+        <header id="author-update">
+            <h1 id="post-title"></h1>
+            <p id="post-author"></p>
+        </header>
+        <p id="post-date"></p>
+        <img id="post-image" src="" alt="Description of the post image">
+        <p id="post-body"></p>
+    </article>
 
-    <button id="share-button">Share this post</button>
+    <button id="share-button" aria-label="Share this post with others">Share this post</button>
 
-    <div id="errorModal" class="modal">
+    <div id="errorModal" class="modal" role="dialog" aria-labelledby="modal-title" aria-describedby="modal-message">
         <div class="modal-content">
-            <span class="close-btn">&times;</span>
+            <button class="close-btn" aria-label="Close modal">&times;</button>
             <p id="modal-message"></p>
         </div>
     </div>
-
 
     <footer class="footer">
         <p>hotView labs. est 2019</p>
     </footer>
 
-
-<script type="module" src="./mjs/postDetails.mjs"></script>
-
+    <script type="module" src="./mjs/postDetails.mjs"></script>
 
 </body>
 </html>

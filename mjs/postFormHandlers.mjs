@@ -2,6 +2,7 @@ import { updatePost } from './postActions.mjs';
 import { handleFetchPostById } from './fetch.mjs';
 import { deletePost } from './postActions.mjs';
 import { showModal } from './modal.mjs';
+import { checkAuth} from './auth.mjs';
 
 export async function populateEditForm(postId) {
     const post = await handleFetchPostById(postId);
@@ -73,4 +74,26 @@ export function handleCancelEdit() {
             onConfirm: () => window.location.href = 'index.html'
         });
     });
+}
+
+// postFormHandlers.mjs
+
+export function initializeEditPage() {
+
+    checkAuth();
+
+    // Hent postId fra URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const postId = urlParams.get('id');
+    
+    if (postId) {
+        populateEditForm(postId);
+        handleEditPostForm(postId);
+        handleDeletePost(postId);
+        handleCancelEdit();
+    } else {
+        console.error('No post ID found in the URL.');
+        alert('No post ID found. Redirecting to main page.');
+        window.location.href = '../index.html'; 
+    }
 }

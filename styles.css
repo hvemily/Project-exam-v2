@@ -55,6 +55,16 @@ h3.blog-title{
     text-align: left;
 }
 
+.back{
+    color: rgb(230, 170, 206);
+    transition: background-color 0.3s, color 0.3s;
+    width: fit-content;
+    margin: 0 auto;
+}
+
+.back:hover{
+    color: rgb(13, 24, 33);
+}
 /*header*/
 
 .home, .login, .hotview-labs{
@@ -270,8 +280,10 @@ h3.blog-title{
 #new-post-button{
     background-color: rgb(230, 170, 206);
     color: black;
-    padding: 8px;
+    padding: 10px 10px;
+    text-align: center;
     margin-top: 15px;
+    margin-bottom: 35px;
     border: none;
     border-radius: 15px;
     transition: background-color 0.3s, color 0.3s;
