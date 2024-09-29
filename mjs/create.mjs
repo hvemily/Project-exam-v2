@@ -34,7 +34,7 @@ export function handleCreatePostForm() {
             const createdPost = await createPost(postData);
             if (createdPost) {
                 showModal('New post created!', {
-                    onClose: () => window.location.href = 'post/index.html'
+                    onClose: () => window.location.href = 'index.html'
                 });
             }
         } catch (error) {
